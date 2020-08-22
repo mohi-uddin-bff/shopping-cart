@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+   <title>Shopping Cart</title>
+   <meta charset="utf-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1">
+   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+   <link rel="stylesheet" href="css/bootstrap.min.css">
+   <link href="style.css" rel="stylesheet">
+</head>
+
+<body>
+
+   <section>
+      <div class="container">
+         <div class="cart">
+            <div class="col-md-12 col-lg-10 mx-auto">
+               <div class="cart-item">
+                  <div class="row">
+                     <div class="col-md-7 center-item">
+                        <img src="images/product-1.png" alt="">
+                        <h5>iPhone 11 128GB Black</h5>
+                     </div>
+
+                     <div class="col-md-5 center-item">
+                        <div class="input-group number-spinner">
+                           <button onclick="calculateProductAndTotalChange(`phone`, false)" class="btn btn-secondary">-</button>
+                           <input id="phone-count" type="text" class="form-control text-center" value="1">
+                           <button onclick="calculateProductAndTotalChange(`phone`, true)" class="btn btn-secondary">+</button>
+                        </div>
+                        <h5 id="phone-prize">$1219</h5>
+                        <img src="images/remove.png" alt="" class="remove-item">
+                     </div>
+                  </div>
+               </div>
+
+               <div class="cart-item">
+                  <div class="row">
+                     <div class="col-md-7 center-item mx-auto">
+                        <img src="images/product-2.png" alt="">
+                        <h5>iPhone 11 Silicone Case - Black</h5>
+                     </div>
+                     <div class="col-md-5 center-item">
+                        <div class="input-group number-spinner">
+                           <button onclick="calculateProductAndTotalChange(`case`, false)" class="btn btn-secondary">-</i></button>
+                           <input id="case-count" type="text" class="form-control text-center" value="1">
+                           <button onclick="calculateProductAndTotalChange(`case`, true)" class="btn btn-secondary">+</i></button>
+
+                        </div>
+                        <h5 id="case-prize">$59</h5>
+                        <img src="images/remove.png" alt="" class="remove-item">
+                     </div>
+                  </div>
+               </div>
+
+               <div class="cart-item">
+                  <div class="row">
+
+                     <div class="col-md-8">
+                        <h5>Subtotal: </h5>
+                        <h5>Tax:</h5>
+                        <h5>Total:</h5>
+                     </div>
+
+                     <div class="col-md-4 status">
+                        <h5 id="total-prize">$1278</h5>
+                        <h5 id="tax-amount">$0</h5>
+                        <h5 id="final-prize">$1278</h5>
+                     </div>
+                  </div>
+               </div>
+               <div class="col-md-12 pt-4 pb-4">
+                  <button type="button" class="btn btn-success check-out">Check Out</button>
+               </div>
+            </div>
+         </div>
+      </div>
+   </section>
+
+   <script>
+
+      function calculateProductAndTotalChange(product, isIncrease) {
+         const productCount = getInputValue(product);
+         let productNewCount = productCount;
+         if (isIncrease == true) {
+            productNewCount = productCount + 1;
+         }
+         if (isIncrease == false && productCount > 0) {
+            productNewCount = productCount - 1;
+         }
+         document.getElementById(product + `-count`).value = productNewCount;
+         let productTotal = 0;
+         if (product == `phone`) {
+            productTotal = 1219 * productNewCount;
+         }
+         if (product == `case`) {
+            productTotal = 59 * productNewCount;
+         }
+         document.getElementById(product + `-prize`).innerText = `$` + productTotal;
+         
+         const phoneCount = getInputValue(`phone`);
+         const caseCount = getInputValue(`case`);
+         const totalPrize = phoneCount * 1219 + caseCount * 59;
+
+         document.getElementById(`total-prize`).innerText = `$` + totalPrize;
+
+         const tax = Math.round(totalPrize * 0.1);
+         document.getElementById(`tax-amount`).innerText = `$` + tax;
+
+         const finalPrize = totalPrize + tax;
+         document.getElementById(`final-prize`).innerText = `$` + finalPrize;
+      }
+
+      function getInputValue(product) {
+         const productInput = document.getElementById(product + `-count`);
+         const productCount = parseInt(productInput.value);
+         return productCount;
+      }
+
+   </script>
+   
+</body>
+</html>
